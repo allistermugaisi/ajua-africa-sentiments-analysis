@@ -15,9 +15,6 @@ import { RootLayout, AuthLayout, DashboardLayout } from "./layouts";
 
 // pages
 import { Home, Dashboard, PageNotFound } from "./pages";
-import CategoriesLanding from "./pages/vehicle-categories.jsx";
-
-
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,8 +36,6 @@ const router = createBrowserRouter(
       >
         <Route path="home" element={<Dashboard />} />
       </Route>
-      <Route path="vehicle-categories" element={<CategoriesLanding />} />
-
       <Route path="*" element={<PageNotFound />} />
     </Route>
   )
