@@ -22,6 +22,7 @@ import {
   TopicModelling,
   Insights,
   Engagements,
+  Users,
   PageNotFound,
 } from "./pages";
 
@@ -49,6 +50,7 @@ const router = createBrowserRouter(
         <Route path="topic-modelling" element={<TopicModelling />} />
         <Route path="insights" element={<Insights />} />
         <Route path="engagements" element={<Engagements />} />
+        <Route path="users" element={<Users />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Route>

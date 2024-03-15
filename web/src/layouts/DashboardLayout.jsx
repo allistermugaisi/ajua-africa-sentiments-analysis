@@ -21,6 +21,13 @@ const DashboardLayout = () => {
     <main>
       <Sidebar sidebar={sidebar} width={width} toggleSidebar={toggleSidebar} />
       <Navbar sidebar={sidebar} />
+      <section
+        className={`pt-24 ${
+          sidebar ? "xl:ml-[16rem]" : "xl:ml-[6.25rem]"
+        }  transition ease-in-out duration-300`}
+      >
+        <Outlet />
+      </section>
     </main>
   );
 };
