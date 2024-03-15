@@ -29,12 +29,13 @@ const Sidebar = ({ sidebar, width, toggleSidebar }) => {
             sidebar ? "block" : "hidden"
           }`}
         >
-          <img
+          {/* <img
             src="https://res.cloudinary.com/dgisuffs0/image/upload/q_auto/v1707373129/mechconnect/MECH_CONNECT-01_n0hsyx.png"
             alt="Mechconnect Logo"
             className="logo-img w-[9.375rem]"
             loading="lazy"
-          />
+          /> */}
+          <h2 className="italic text-xl font-semibold">Sentiment Analysis</h2>
         </div>
         <button
           className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 focus:outline-none"
