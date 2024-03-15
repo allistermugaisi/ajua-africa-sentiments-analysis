@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+ 
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+ 
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+ 
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+ 
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+ 
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+ 
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.not-found-wrapper {
+	background: linear-gradient(45deg, #3A38BF, #3A38BF);
+	height: 100vh;
+}
+
+.not-found-container {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 10%;
+	left: 10%;
+	right: 10%;
+	bottom: 10%;
+	border-radius: 10px;
+	background: url('../../../assets/p404.png') #151729;
+	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+}
+
+.not-found-container .not-found-content {
+	max-width: 600px;
+	text-align: center;
+}
+
+.not-found-container .not-found-content h2 {
+	font-size: 18vw;
+	color: #fff;
+	line-height: 1em;
+}
+
+.not-found-container .not-found-content h4 {
+	position: relative;
+	font-size: 1.5em;
+	margin-bottom: 20px;
+	max-width: calc(600px - 1rem);
+	color: #111;
+	background: #fff;
+	border-radius: 3px;
+	padding: 10px 20px;
+	display: inline-block;
+}
+
+.not-found-container .not-found-content p {
+	color: #fff;
+	font-size: 1.2em;
+}
+
+.not-found-container .not-found-content a {
+	position: relative;
+	display: inline-block;
+	padding: 10px 25px;
+	background: #ff0562;
+	color: #fff;
+	text-decoration: none;
+	margin-top: 25px;
+	border-radius: 25px;
+}
