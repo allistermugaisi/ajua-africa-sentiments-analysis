@@ -14,7 +14,16 @@ import { RootLayout, AuthLayout, DashboardLayout } from "./layouts";
 // import { PrivateRoute } from "./middleware";
 
 // pages
-import { Home, Dashboard, PageNotFound } from "./pages";
+import {
+  Home,
+  Dashboard,
+  WebScrapping,
+  SentimentAnalysis,
+  TopicModelling,
+  Insights,
+  Engagements,
+  PageNotFound,
+} from "./pages";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +44,11 @@ const router = createBrowserRouter(
         }
       >
         <Route path="home" element={<Dashboard />} />
+        <Route path="web-scrapping" element={<WebScrapping />} />
+        <Route path="sentiment-analysis" element={<SentimentAnalysis />} />
+        <Route path="topic-modelling" element={<TopicModelling />} />
+        <Route path="insights" element={<Insights />} />
+        <Route path="engagements" element={<Engagements />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Route>
