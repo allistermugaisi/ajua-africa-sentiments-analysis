@@ -1,14 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Calendar } from "@/components/ui/calendar";
 import { formatDate } from "../../lib/utils";
+import { BarChartHero } from "../../components/BarChart";
+import { Card } from "@tremor/react";
 
 const Dashboard = () => {
   const [date, setDate] = useState(new Date());
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Call fetchData function when component mounts
+    fetchData();
+  }, [date]);
+
+  const fetchData = async () => {
+    try {
+      // Set loading state to true before fetching data
+      setIsLoading(true);
+
+      // Fetch data from the API
+      const response = await fetch("http://127.0.0.1:8080/sentiment-analysis");
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+      const jsonData = await response.json();
+
+      // Update state with fetched data
+      setData(jsonData);
+      setIsLoading(false); // Set loading state to false after data is fetched
+    } catch (error) {
+      // Set error state if an error occurs during fetching
+      setError(error.message);
+      setIsLoading(false); // Set loading state to false if an error occurs
+    }
+  };
+
+  // Get total positive sentiments
+  const totalPositiveSentiments = data?.filter(
+    (item) => item.sentiment === "positive"
+  ).length;
+
+  // Get total neutral sentiments
+  const totalNeutralSentiments = data?.filter(
+    (item) => item.sentiment === "neutral"
+  ).length;
+
+  // Get total negative sentiments
+  const totalNegativeSentiments = data?.filter(
+    (item) => item.sentiment === "negative"
+  ).length;
 
   return (
     <div className="xl:container mx-auto pt-8 px-7 xl:px-10 py-4 min-h-[43.875rem]">
@@ -55,6 +111,122 @@ const Dashboard = () => {
             <Calendar mode="single" selected={date} onSelect={setDate} />
           </DropdownMenuContent>
         </DropdownMenu>
+      </div>
+      <div className="my-4 flex gap-3">
+        <Card
+          className="mx-auto max-w-xs"
+          decoration="bottom"
+          decorationColor="blue"
+        >
+          <p className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
+            Total analyzed sentiments
+          </p>
+          <p className="text-3xl text-tremor-content-strong dark:text-dark-tremor-content-strong font-semibold">
+            {data ? data.length : 0}
+          </p>
+        </Card>
+        <Card
+          className="mx-auto max-w-xs"
+          decoration="bottom"
+          decorationColor="green"
+        >
+          <p className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
+            Total positive sentiments
+          </p>
+          <p className="text-3xl text-tremor-content-strong dark:text-dark-tremor-content-strong font-semibold">
+            {totalPositiveSentiments}
+          </p>
+        </Card>
+        <Card
+          className="mx-auto max-w-xs"
+          decoration="bottom"
+          decorationColor="yellow"
+        >
+          <p className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
+            Total neutral sentiments
+          </p>
+          <p className="text-3xl text-tremor-content-strong dark:text-dark-tremor-content-strong font-semibold">
+            {totalNeutralSentiments}
+          </p>
+        </Card>
+        <Card
+          className="mx-auto max-w-xs"
+          decoration="bottom"
+          decorationColor="red"
+        >
+          <p className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
+            Total negative sentiments
+          </p>
+          <p className="text-3xl text-tremor-content-strong dark:text-dark-tremor-content-strong font-semibold">
+            {totalNegativeSentiments}
+          </p>
+        </Card>
+      </div>
+      <BarChartHero
+        totalPositiveSentiments={totalPositiveSentiments}
+        totalNeutralSentiments={totalNeutralSentiments}
+        totalNegativeSentiments={totalNegativeSentiments}
+      />
+      <div className="mx-0 mt-8">
+        <Table className="whitespace-nowrap">
+          <TableCaption>A list of web scraped data.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]">ID</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead>Category</TableHead>
+              <TableHead>Source</TableHead>
+              <TableHead>Link</TableHead>
+              <TableHead>Title</TableHead>
+              <TableHead>Sentiment Score</TableHead>
+              <TableHead>Sentiment</TableHead>
+              <TableHead>Time</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {isLoading ? (
+              <p>Loading...</p>
+            ) : error ? (
+              <p>Error: {error}</p>
+            ) : (
+              <>
+                {data && (
+                  <>
+                    {data.map((item) => (
+                      <TableRow key={item._id}>
+                        <TableCell className="font-medium">
+                          {item._id}
+                        </TableCell>
+                        <TableCell>{item.type}</TableCell>
+                        <TableCell>{item.category}</TableCell>
+                        <TableCell>{item.source}</TableCell>
+                        <TableCell>{item.link}</TableCell>
+                        <TableCell>{item.title}</TableCell>
+                        <TableCell>{item.sentiment_score}</TableCell>
+                        <TableCell>
+                          {item.sentiment === "positive" ? (
+                            <span className="italic text-sm bg-green-500 text-white px-2 py-1 rounded-full">
+                              {item.sentiment}
+                            </span>
+                          ) : item.sentiment === "neutral" ? (
+                            <span className="italic text-sm bg-yellow-500 text-white px-2 py-1 rounded-full">
+                              {item.sentiment}
+                            </span>
+                          ) : (
+                            <span className="italic text-sm bg-red-500 text-white px-2 py-1 rounded-full">
+                              {item.sentiment}
+                            </span>
+                          )}
+                        </TableCell>
+                        <TableCell>{item.time}</TableCell>
+                      </TableRow>
+                    ))}
+                  </>
+                )}
+              </>
+            )}
+          </TableBody>
+        </Table>
       </div>
     </div>
   );

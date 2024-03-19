@@ -232,7 +232,7 @@ const DATA = {
   username: "Allister Mugaisi",
   email: "allistermugaisi@gmail.com",
   image:
-    "https://res.cloudinary.com/dgisuffs0/image/upload/q_auto/v1628427283/member-3_n7zroi.png",
+    "https://lh3.googleusercontent.com/a/ACg8ocLhD8JXKmWZ5cZ7xQYfozDFs6cLTCneElIbqiN_IiBSRw8=s96-c",
 };
 
 const NOTIFICATION_DATA = [

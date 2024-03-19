@@ -15,10 +15,8 @@ const Insights = () => {
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-6">
           <div className="flex flex-col items-start justify-start w-auto">
-            <p className="text-[16px] font-semibold text-red-500">
-              Scrap data automatically
-            </p>
-            <h4 className="text-[24px] font-semibold">Web Scrapping</h4>
+            <p className="text-[16px] font-semibold text-red-500">Insights</p>
+            <h4 className="text-[24px] font-semibold">Insights</h4>
           </div>
         </div>
         <DropdownMenu>

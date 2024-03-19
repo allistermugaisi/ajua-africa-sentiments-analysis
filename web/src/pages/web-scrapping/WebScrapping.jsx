@@ -1,14 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Calendar } from "@/components/ui/calendar";
 import { formatDate } from "../../lib/utils";
+import { Card } from "@tremor/react";
 
 const WebScrapping = () => {
   const [date, setDate] = useState(new Date());
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Call fetchData function when component mounts
+    fetchData();
+  }, [date]);
+
+  const fetchData = async () => {
+    try {
+      // Set loading state to true before fetching data
+      setIsLoading(true);
+
+      // Fetch data from the API
+      const response = await fetch("http://127.0.0.1:8080/web-scraping");
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+      const jsonData = await response.json();
+
+      // Update state with fetched data
+      setData(jsonData);
+      setIsLoading(false); // Set loading state to false after data is fetched
+    } catch (error) {
+      // Set error state if an error occurs during fetching
+      setError(error.message);
+      setIsLoading(false); // Set loading state to false if an error occurs
+    }
+  };
 
   return (
     <div className="xl:container mx-auto pt-8 px-7 xl:px-10 py-4 min-h-[43.875rem]">
@@ -16,9 +56,9 @@ const WebScrapping = () => {
         <div className="flex items-center gap-6">
           <div className="flex flex-col items-start justify-start w-auto">
             <p className="text-[16px] font-semibold text-red-500">
-              Scrap data automatically
+              View web scraped data
             </p>
-            <h4 className="text-[24px] font-semibold">Web Scrapping</h4>
+            <h4 className="text-[24px] font-semibold">Web Scraping</h4>
           </div>
         </div>
         <DropdownMenu>
@@ -55,6 +95,65 @@ const WebScrapping = () => {
             <Calendar mode="single" selected={date} onSelect={setDate} />
           </DropdownMenuContent>
         </DropdownMenu>
+      </div>
+      <div>
+        <Card
+          className="mx-auto max-w-xs"
+          decoration="bottom"
+          decorationColor="blue"
+        >
+          <p className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
+            Total analyzed sentiments
+          </p>
+          <p className="text-3xl text-tremor-content-strong dark:text-dark-tremor-content-strong font-semibold">
+            {data ? data.length : 0}
+          </p>
+        </Card>
+      </div>
+      <div className="mx-0 mt-8">
+        <Table className="whitespace-nowrap">
+          <TableCaption>A list of web scraped data.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]">ID</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead>Category</TableHead>
+              <TableHead>Source</TableHead>
+              <TableHead>Link</TableHead>
+              <TableHead>Title</TableHead>
+              <TableHead>Description</TableHead>
+              <TableHead>Time</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {isLoading ? (
+              <p>Loading...</p>
+            ) : error ? (
+              <p>Error: {error}</p>
+            ) : (
+              <>
+                {data && (
+                  <>
+                    {data.map((item) => (
+                      <TableRow key={item._id}>
+                        <TableCell className="font-medium">
+                          {item._id}
+                        </TableCell>
+                        <TableCell>{item.type}</TableCell>
+                        <TableCell>{item.category}</TableCell>
+                        <TableCell>{item.source}</TableCell>
+                        <TableCell>{item.link}</TableCell>
+                        <TableCell>{item.title}</TableCell>
+                        <TableCell>{item.description}</TableCell>
+                        <TableCell>{item.time}</TableCell>
+                      </TableRow>
+                    ))}
+                  </>
+                )}
+              </>
+            )}
+          </TableBody>
+        </Table>
       </div>
     </div>
   );
